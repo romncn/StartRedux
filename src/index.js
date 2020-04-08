@@ -1,9 +1,10 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import App from './App';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
 import { createStore, combineReducers, applyMiddleware } from "redux";
 //combineReducers เพื่อรวม reducer ที่ต่างกันลงใน 1 store
 //applyMiddleware ใช้ในการดู action อะไรที่กำลังทำงานที่จะส่งไปที่ reducer
+import {Provider} from "react-redux";
 
 const initialStateEmployee = {
   result: 15000,
@@ -66,33 +67,39 @@ const mylogger = (store) => (next) => (action) =>{
 }
 
 //store
-const store = createStore(combineReducers({ employeeReducer, userReducer }),{},applyMiddleware(mylogger));
+const store = createStore(combineReducers({emp: employeeReducer,user: userReducer }),{},applyMiddleware(mylogger));
 // const store = createStore(reducer, 15000);
 
 //subscribe
 store.subscribe(() => {
   console.log("Update Store:", store.getState());
 })
-//action
-store.dispatch({
-  type: "ADD",
-  payload: 500
-})
-store.dispatch({
-  type: "setName",
-  payload: "Gunny"
-})
-store.dispatch({
-  type: "setAge",
-  payload: 23
-})
+
+// //action
+// store.dispatch({
+//   type: "ADD",
+//   payload: 500
+// })
+// store.dispatch({
+//   type: "setName",
+//   payload: "Gunny"
+// })
+// store.dispatch({
+//   type: "setAge",
+//   payload: 23
+// })
 
 
 
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>,
-//   document.getElementById('root')
-// );
+ReactDOM.render(
+  <Provider store={store}>
+    <App/>
+  </Provider>,
+  // <React.StrictMode>
+  //   <App />
+  // </React.StrictMode>,
+
+
+  document.getElementById('root')
+);
 
